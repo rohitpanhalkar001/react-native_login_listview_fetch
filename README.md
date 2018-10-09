@@ -87,5 +87,5 @@ Response:
   }
  ]
 }
-
-
+```
+Note*:- API's used in this Project are for Demo purpose, you can replace it with any of your valid API that satisfy the rules.
