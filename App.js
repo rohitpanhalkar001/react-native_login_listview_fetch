@@ -15,23 +15,14 @@ import HomeScreen from './src/HomeScreen';
 
 
 const Navigation = StackNavigator({
-    Screen1:{screen:UserLogin},
-    Screen2:{screen:HomeScreen},
-},
-{
-  initialRouteName: 'Screen1',
-
-  navigationOptions: {
-    title: 'My Initial Scene',
-    textAlign:'center',
-    headerStyle: {
-      backgroundColor: 'blue'
-    }, headerTintColor: '#fff',
-    headerTitleStyle: {
-      fontWeight: 'bold',
-    },
-   
-  }
+    Screen1:{screen:UserLogin,
+        navigationOptions: {
+            header: null,
+          }},
+    Screen2:{screen:HomeScreen,
+        navigationOptions: {
+            header: null,
+          }},
 }
 );
 

@@ -5,16 +5,20 @@ import {
     StyleSheet,
     FlatList,
     Image,
-    ActivityIndicator
+    ActivityIndicator,
+    StatusBar
 } from 'react-native'
+
+import Header from '../src/Header';
+
 
 export default class City extends React.Component {
 
     constructor() {
         super()
         this.state = {
-            dataSource: []
-
+            dataSource: [],
+            isFetching: false
         }
     }
 
@@ -33,16 +37,23 @@ export default class City extends React.Component {
                     <Text>{item.author}</Text>
                 </View>
             </View>
+
         )
     }
 
     componentDidMount() {
+
+        this.setState({
+            isFetching: true
+        })
+
         const url = 'http://www.json-generator.com/api/json/get/ccLAsEcOSq?indent=1'
         fetch(url)
             .then((response) => response.json())
             .then((responseJson) => {
                 console.warn(responseJson.book_array)
                 this.setState({
+                    isFetching: false,
                     dataSource: responseJson.book_array
                 })
             })
@@ -54,31 +65,53 @@ export default class City extends React.Component {
 
     renderSeparator = () => {
         return (
+
             <View style={{ height: 1, width: '100%', backgroundColor: 'black' }}>
             </View>
+
         )
     }
 
     render() {
         return (
-            <View style={styles.container}>
-                <FlatList
-                    data={this.state.dataSource}
-                    renderItem={this.renderItem}
-                    keyExtractor={(item, index) => index}
-                    ItemSeparatorComponent={this.renderSeparator} />
+            <View style={{ flex: 1 }}>
 
-                {/* <ActivityIndicator animating={this.state.isFetching}></ActivityIndicator> */}
+                <StatusBar
+                    backgroundColor="#003366"
+                    barStyle="light-content"
+                />
+                <Header title="HomeScreen" />
+                <View style={styles.container}>
+
+                    <FlatList
+                        data={this.state.dataSource}
+                        renderItem={this.renderItem}
+                        keyExtractor={(item, index) => index}
+                        ItemSeparatorComponent={this.renderSeparator} />
+
+                    <ActivityIndicator style={styles.activityLoader} size="large" animating={this.state.isFetching}></ActivityIndicator>
+                </View>
             </View>
 
 
         );
     }
+
+    // onNavigation =()=>{
+    //     this.props.navigation.navigate("Screen1");
+    //    }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F5FCFF'
+        backgroundColor: '#F5FCFF',
+        justifyContent: 'center',
+
+    },
+    activityLoader: {
+        flex: 1,
+        backgroundColor: '#ffffff'
     }
+
 })
